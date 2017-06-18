@@ -28,13 +28,15 @@ module.exports = env => ({
             })
         }, {
             test: /\.(png|svg|jpg|gif)$/,
+            include: /src/,
             use: [
-                'file-loader'
+                'file-loader?outputPath=images/'
             ]
         }, {
-            test: /\.(woff|woff2|eot|ttf|otf)$/,
+            test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
+            include: /bootstrap/,
             use: [
-                'file-loader'
+                'file-loader?outputPath=fonts/'
             ]
         }, {
             test: /\.html$/,
@@ -46,7 +48,7 @@ module.exports = env => ({
     plugins: [
         new ExtractTextPlugin('[name].[contenthash].css'),
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './src/index.ejs',
         }),
         new webpack.DefinePlugin(buildProperties(env)),
     ]

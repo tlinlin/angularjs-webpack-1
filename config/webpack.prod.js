@@ -14,11 +14,10 @@ module.exports = env => Merge(CommonConfig(env), {
     devtool: 'source-map',
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['vendor', 'manifest'],
-            minChunks: function (module) {
-                return module.context && module.context.indexOf('node_modules') !== -1;
-            }
+            name: 'vendor',
+            minChunks: resource => /node_modules/.test(resource),
         }),
+        new webpack.optimize.CommonsChunkPlugin('manifest'),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false
@@ -36,6 +35,8 @@ module.exports = env => Merge(CommonConfig(env), {
         }),
         new webpack.HashedModuleIdsPlugin(),
         new WebpackChunkHash(),
-        new ChunkManifestPlugin(),
+        new ChunkManifestPlugin({
+            inlineManifest: true
+        }),
     ]
 });
