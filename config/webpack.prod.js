@@ -3,7 +3,9 @@ const webpack = require('webpack');
 const Merge = require('webpack-merge');
 const CommonConfig = require('./webpack.common.js');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackChunkHash = require('webpack-chunk-hash');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = env => Merge(CommonConfig(env), {
     output: {
@@ -13,30 +15,23 @@ module.exports = env => Merge(CommonConfig(env), {
     },
     devtool: 'source-map',
     plugins: [
+        new ExtractTextPlugin('[name].[chunkhash].css'),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            minChunks: resource => /node_modules/.test(resource),
+            minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
+            && !module.chunks.find(chunk => chunk.name === 'polyfills')
         }),
         new webpack.optimize.CommonsChunkPlugin('manifest'),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            beautify: false,
-            mangle: {
-                screw_ie8: true,
-                keep_fnames: true
-            },
-            compress: {
-                screw_ie8: true
-            },
-            comments: false
-        }),
+        new webpack.optimize.UglifyJsPlugin(),
         new webpack.HashedModuleIdsPlugin(),
         new WebpackChunkHash(),
         new ChunkManifestPlugin({
             inlineManifest: true
         }),
+        // new BundleAnalyzerPlugin()
     ]
 });

@@ -4,8 +4,8 @@ const webpack = require('webpack');
 
 module.exports = env => ({
     entry: {
-        main: './src/index.js',
-        styles: './src/index.less'
+        main: ['./src/index.js', './src/index.less'],
+        polyfills: 'babel-polyfill'
     },
     module: {
         rules: [{
@@ -46,7 +46,6 @@ module.exports = env => ({
         }]
     },
     plugins: [
-        new ExtractTextPlugin('[name].[contenthash].css'),
         new HtmlWebpackPlugin({
             template: './src/index.ejs',
         }),

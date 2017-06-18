@@ -8,7 +8,7 @@
     "build:dev": "npm run clean & webpack --env.config=dev",
     "build:prod": "npm run clean & webpack --env.config=prod",
     "serve:dev": "webpack-dev-server --env.config=dev",
-    "serve:prod": "webpack-dev-server --env.config=prod"
+    "serve:prod": "webpack-dev-server --env.config=prod --compress"
   },
   "author": "Fumoffu",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "babel-eslint": "^8.0.0-alpha.12",
     "babel-loader": "^7.0.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "chunk-manifest-webpack-plugin": "^1.1.0",
     "css-loader": "^0.28.4",
@@ -32,6 +33,7 @@
     "rimraf": "^2.6.1",
     "style-loader": "^0.18.2",
     "webpack": "^2.6.1",
+    "webpack-bundle-analyzer": "^2.8.2",
     "webpack-chunk-hash": "^0.4.0",
     "webpack-dev-server": "^2.4.5",
     "webpack-merge": "^4.1.0"
